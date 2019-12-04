@@ -1,0 +1,8 @@
+module Diretorio (clock);
+
+Mem M0();
+
+
+
+
+endmodule
