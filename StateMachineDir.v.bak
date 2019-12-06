@@ -21,7 +21,7 @@ module StateMachineDir(clock, state, cdb, newState, emit, soma, reset, clear);
 	soma = 0;
 	reset = 0;
 	clear = 0;
-	emit = 22'b1111111111111111111111
+	emit = 21'b111111111111111111111
     case(state)
       2'b00: //Uncached
       begin
