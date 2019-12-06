@@ -1,8 +1,8 @@
 module Mem(clock, dataWB_enable, dataWB_data);
 
 input clock, dataWB_enable;
-input[16:0] dataWB_data;
-reg[16:0]data[7:0];
+input[21:0] dataWB_data;
+reg[15:0]data[7:0];
 
 initial begin
 	data[0] = 16'b0000000000001010; //0010
@@ -13,6 +13,14 @@ initial begin
 	data[5] = 16'b0000000000011100; //0028
 	data[6] = 16'b0000000001000100; //0068
 	data[7] = 16'b0000000001100000; //0096
+end
+
+always@(posedge clock)
+begin
+	if(dataWB_enable == 1)
+	begin
+		data[dataWB_data[21:19]] = dataWB_data[15:0];
+	end
 end
 
 endmodule

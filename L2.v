@@ -3,7 +3,7 @@ module L2(clock, CDB, CPUreceiver, selectedEmit);
 input[21:0]CDB; //recebe mensagem do barramento comum
 input[21:0]CPUreceiver; //recebe mensagem do processador
 input clock;
-reg[16:0]Data[3:0]; //armazena o dado, quando valido, do banco nos processadores
+reg[15:0]Data[3:0]; //armazena o dado, quando valido, do banco nos processadores
 reg[2:0]Tag[3:0]; //armazena as tags presentes nos dois processadores
 reg[1:0]Sharers[3:0]; //armazena quais processadores compartilham determinada tag, possui 1 quando o processador da posicao possui a tag
 reg[1:0]State[3:0]; //guarda o estado de cada banco (linha)
@@ -13,6 +13,7 @@ wire[3:0]soma;
 wire[3:0]reset;
 wire[3:0]clear;
 wire[21:0]emit[3:0];
+wire[21:0]pcEmit[1:0];
 
 output reg[21:0]selectedEmit; //capaz de emitir dados no CDB
 
@@ -49,6 +50,10 @@ StateMachineDir B0(clock, State[0], cdb, newState[0], emit[0], soma[0], reset[0]
 StateMachineDir B1(clock, State[1], cdb, newState[1], emit[1], soma[1], reset[1], clear[1]);
 StateMachineDir B2(clock, State[2], cdb, newState[2], emit[2], soma[2], reset[2], clear[2]);
 StateMachineDir B3(clock, State[3], cdb, newState[3], emit[3], soma[3], reset[3], clear[3]);
+
+PC0 pc00(clock, CDB, pcEmit[0], emitPC0, dataWB);
+PC1 pc01(clock, CDB, pcEmit[1], emitPC1, dataWB);
+
 
 always@(posedge clock)
 begin
